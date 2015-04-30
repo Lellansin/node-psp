@@ -1,0 +1,22 @@
+{
+  "name": "pp",
+  "version": "0.0.0",
+  "description": "Process & Port manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./tests"
+  },
+  "keywords": [
+    "ps",
+    "port",
+    "kill",
+    "killall",
+    "killsome"
+  ],
+  "author": "Lellansin",
+  "license": "MIT",
+  "dependencies": {
+    "scanf": "^0.4.2",
+    "sync-exec": "^0.5.0"
+  }
+}
