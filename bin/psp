@@ -3,49 +3,74 @@
 var version = require('../package.json').version,
   program = require('commander'),
   PSP = require('../'),
-  psp = new PSP();
+  psp = new PSP(),
+  flag = true;
 
-program.version(version);
+program
+  .version(version)
+  .option('-i, --pid <pid>', 'show process list by pid')
+  .option('-p, --port <port> ', 'show process list by port')
+  .option('-n, --name <name> ', 'show process list by name')
+  .option('-k, --killflag ', 'show process list by name')
+  .option('-f, --forece ', 'kill process by name')
+  .action();
 
 program.command('init')
   .description('config psp helper.')
   .action(function() {
+    flag = false;
     psp.configInit();
   });
 
 program.command('list')
-  .description('start the application.')
-  .option('-i, --pid <pid>', 'show process list by pid')
-  .option('-p, --port <port> ', 'show process list by port')
-  .option('-n, --name <name> ', 'show process list by name')
-  .action(function(opts) {
-    if (!opts.pid && !opts.port && typeof opts.name != 'string') {
-      return psp.psTree(1);
-    }
-
-    if (!!opts.pid) {
-      psp.psTree(parseInt(opts.pid));
-    } else if (!!opts.port) {
-      psp.portTree(parseInt(opts.port), true);
-    } else if (typeof opts.name == 'string') {
-      psp.portTree(opts.name);
-    }
-  });
+  .description('list process')
+  .action(list);
 
 program.command('kill')
-  .description('kill the process.')
-  .option('-i, --pid <pid>', 'kill process by pid')
-  .option('-p, --port <port> ', 'kill process by port')
-  .option('-n, --name <name> ', 'kill process by name')
-  .option('-f, --forece ', 'kill process by name')
-  .action(function(opts) {
-    if (!!opts.pid) {
-      psp.kill(parseInt(opts.pid));
-    } else if (!!opts.port) {
-      psp.killByPort(parseInt(opts.port), opts.forece);
-    } else if (typeof opts.name == 'string') {
-      psp.kill(opts.name);
-    }
-  });
+  .description('kill process')
+  .action(kill);
 
 program.parse(process.argv);
+
+
+if (flag) {
+  if (!!program.killflag) {
+    kill(program);
+  } else {
+    list(program);
+  }
+}
+
+function list(opts) {
+  flag = false;
+  if (!!opts.parent) {
+    opts = opts.parent;
+  }
+
+  if (!opts.pid && !opts.port && typeof opts.name != 'string') {
+    return psp.psTree(1);
+  }
+
+  if (!!opts.pid) {
+    psp.psTree(parseInt(opts.pid));
+  } else if (!!opts.port) {
+    psp.portTree(parseInt(opts.port), true);
+  } else if (typeof opts.name == 'string') {
+    psp.portTree(opts.name);
+  }
+}
+
+function kill(opts) {
+  flag = false;
+  if (!!opts.parent) {
+    opts = opts.parent;
+  }
+
+  if (!!opts.pid) {
+    psp.kill(parseInt(opts.pid));
+  } else if (!!opts.port) {
+    psp.killByPort(parseInt(opts.port), opts.forece);
+  } else if (typeof opts.name == 'string') {
+    psp.kill(opts.name);
+  }
+}
