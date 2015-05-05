@@ -10,7 +10,7 @@ program.version(version);
 program.command('init')
   .description('config pp helper.')
   .action(function() {
-
+    pp.configInit();
   });
 
 program.command('list')
