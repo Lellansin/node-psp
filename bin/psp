@@ -2,15 +2,15 @@
 
 var version = require('../package.json').version,
   program = require('commander'),
-  PP = require('../'),
-  pp = new PP();
+  PSP = require('../'),
+  psp = new PSP();
 
 program.version(version);
 
 program.command('init')
-  .description('config pp helper.')
+  .description('config psp helper.')
   .action(function() {
-    pp.configInit();
+    psp.configInit();
   });
 
 program.command('list')
@@ -20,15 +20,15 @@ program.command('list')
   .option('-n, --name <name> ', 'show process list by name')
   .action(function(opts) {
     if (!opts.pid && !opts.port && typeof opts.name != 'string') {
-      return pp.psTree(1);
+      return psp.psTree(1);
     }
 
     if (!!opts.pid) {
-      pp.psTree(parseInt(opts.pid));
+      psp.psTree(parseInt(opts.pid));
     } else if (!!opts.port) {
-      pp.portTree(parseInt(opts.port), true);
+      psp.portTree(parseInt(opts.port), true);
     } else if (typeof opts.name == 'string') {
-      pp.portTree(opts.name);
+      psp.portTree(opts.name);
     }
   });
 
@@ -40,11 +40,11 @@ program.command('kill')
   .option('-f, --forece ', 'kill process by name')
   .action(function(opts) {
     if (!!opts.pid) {
-      pp.kill(parseInt(opts.pid));
+      psp.kill(parseInt(opts.pid));
     } else if (!!opts.port) {
-      pp.killByPort(parseInt(opts.port), opts.forece);
+      psp.killByPort(parseInt(opts.port), opts.forece);
     } else if (typeof opts.name == 'string') {
-      pp.kill(opts.name);
+      psp.kill(opts.name);
     }
   });
 

@@ -1,1 +1,1 @@
-module.exports = require('./lib/pp');
+module.exports = require('./lib/psp');

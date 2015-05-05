@@ -1,15 +1,21 @@
-var PP = new require('../');
+var PSP = new require('../');
 
-var pp = new PP();
-pp.killByPort(3001);
+var psp = new PSP();
+// psp.killByPort(3001);
 
-// pp.psTree(2085);
-// pp.psTree('node');
+// psp.psTree(2085);
+// psp.psTree(320);
+// psp.psTree(1);
+// psp.psTree('node');
 
-// pp.portList();
+// psp.portList();
 
-// pp.portTree(7925, true);
-// pp.portTree(1);
-// pp.portTree('node');
+// psp.portTree(7925, true);
+// psp.portTree(9910, true);
+// psp.portTree(1234, true);
+// psp.portTree(1);
+// psp.portTree('node');
 
-// pp.kill('node');
+// psp.kill('node');
+
+// psp.configInit();

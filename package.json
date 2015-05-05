@@ -1,5 +1,5 @@
 {
-  "name": "pp",
+  "name": "psp",
   "version": "0.2.0",
   "description": "Process & Port manager",
   "main": "index.js",
@@ -7,12 +7,13 @@
     "test": "mocha ./tests"
   },
   "bin": {
-    "pp": "./bin/pp"
+    "psp": "./bin/psp"
   },
   "keywords": [
     "ps",
     "port",
     "ps tree",
+    "ps with port",
     "port tree",
     "kill",
     "kill by port",
@@ -22,12 +23,12 @@
   "author": "Lellansin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Lellansin/node-pp/issues"
+    "url": "https://github.com/Lellansin/node-psp/issues"
   },
-  "homepage": "https://github.com/Lellansin/node-pp",
+  "homepage": "https://github.com/Lellansin/node-psp",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Lellansin/node-pp.git"
+    "url": "https://github.com/Lellansin/node-psp.git"
   },
   "dependencies": {
     "commander": "^2.8.1",
