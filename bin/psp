@@ -11,9 +11,15 @@ program
   .option('-i, --pid <pid>', 'show process list by pid')
   .option('-p, --port <port> ', 'show process list by port')
   .option('-n, --name <name> ', 'show process list by name')
-  .option('-k, --killflag ', 'show process list by name')
-  .option('-f, --forece ', 'kill process by name')
-  .action();
+  .option('-P, --show_port ', 'show port infomation in ps list')
+  .option('-a, --show_arg ', 'show args infomation in ps list')
+  .option('-w, --white_list ', 'show args info with white list')
+  .option('-k, --kill_flag ', 'kill process')
+  .option('-f, --forece ', 'kill without confirm')
+  .action(function(cmd, env) {
+    console.log('arguments', arguments);
+  });
+
 
 program.command('init')
   .description('config psp helper.')
@@ -32,9 +38,8 @@ program.command('kill')
 
 program.parse(process.argv);
 
-
 if (flag) {
-  if (!!program.killflag) {
+  if (!!program.kill_flag) {
     kill(program);
   } else {
     list(program);
@@ -48,15 +53,35 @@ function list(opts) {
   }
 
   if (!opts.pid && !opts.port && typeof opts.name != 'string') {
-    return psp.psTree(1);
+    return psp.psTree({
+      arg: 1,
+      show_port: opts.show_port,
+      show_arg: opts.show_arg,
+    });
   }
 
   if (!!opts.pid) {
-    psp.psTree(parseInt(opts.pid));
+    psp.psTree({
+      arg: parseInt(opts.pid),
+      show_port: opts.show_port,
+      show_arg: opts.show_arg,
+      white_flag: opts.white_list,
+    });
   } else if (!!opts.port) {
-    psp.portTree(parseInt(opts.port), true);
+    psp.portTree({
+      arg: parseInt(opts.port),
+      show_port: opts.show_port,
+      show_arg: opts.show_arg,
+      white_flag: opts.white_list,
+      show_parent: true,
+    });
   } else if (typeof opts.name == 'string') {
-    psp.portTree(opts.name);
+    psp.portTree({
+      arg: opts.name,
+      show_port: opts.show_port,
+      show_arg: opts.show_arg,
+      white_flag: opts.white_list,
+    });
   }
 }
 
