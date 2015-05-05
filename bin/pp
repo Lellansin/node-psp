@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+var version = require('../package.json').version,
+  program = require('commander'),
+  PP = require('../'),
+  pp = new PP();
+
+program.version(version);
+
+program.command('init')
+  .description('config pp helper.')
+  .action(function() {
+
+  });
+
+program.command('list')
+  .description('start the application.')
+  .option('-i, --pid <pid>', 'show process list by pid')
+  .option('-p, --port <port> ', 'show process list by port')
+  .option('-n, --name <name> ', 'show process list by name')
+  .action(function(opts) {
+    if (!opts.pid && !opts.port && typeof opts.name != 'string') {
+      return pp.psTree(1);
+    }
+
+    if (!!opts.pid) {
+      pp.psTree(parseInt(opts.pid));
+    } else if (!!opts.port) {
+      pp.portTree(parseInt(opts.port), true);
+    } else if (typeof opts.name == 'string') {
+      pp.portTree(opts.name);
+    }
+  });
+
+program.command('kill')
+  .description('kill the process.')
+  .option('-i, --pid <pid>', 'kill process by pid')
+  .option('-p, --port <port> ', 'kill process by port')
+  .option('-n, --name <name> ', 'kill process by name')
+  .option('-f, --forece ', 'kill process by name')
+  .action(function(opts) {
+    if (!!opts.pid) {
+      pp.kill(parseInt(opts.pid));
+    } else if (!!opts.port) {
+      pp.killByPort(parseInt(opts.port), opts.forece);
+    } else if (typeof opts.name == 'string') {
+      pp.kill(opts.name);
+    }
+  });
+
+program.parse(process.argv);
