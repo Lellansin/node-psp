@@ -1,6 +1,6 @@
 {
   "name": "psp",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Process & Port manager",
   "main": "index.js",
   "scripts": {
